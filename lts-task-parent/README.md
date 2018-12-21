@@ -1,30 +1,30 @@
-±¾ÏîÄ¿ÊÇ¶ÔÀ´Ô´ÏîÄ¿ <a href="https://github.com/ltsopensource/light-task-scheduler">light-task-scheduler</a> ÔËÓÃÀı×Ó£¬¿ÉÖ§³Öjava´úÂëºÍspring·½Ê½
+æœ¬é¡¹ç›®æ˜¯å¯¹æ¥æºé¡¹ç›® <a href="https://github.com/ltsopensource/light-task-scheduler">light-task-scheduler</a> è¿ç”¨ä¾‹å­ï¼Œå¯æ”¯æŒjavaä»£ç å’Œspringæ–¹å¼
 
-ÔËĞĞÈÎÎñ£¬ÊµÏÖÒ»¸ötasktrackerÔËĞĞ²»Í¬ÈÎÎñ£¬ĞèÒªÔÚjobclientÖĞÉú³ÉÈÎÎñÊ±Ìí¼ÓÈç£ºjob.setParam("type", "111");
+è¿è¡Œä»»åŠ¡ï¼Œå®ç°ä¸€ä¸ªtasktrackerè¿è¡Œä¸åŒä»»åŠ¡ï¼Œéœ€è¦åœ¨jobclientä¸­ç”Ÿæˆä»»åŠ¡æ—¶æ·»åŠ å¦‚ï¼šjob.setParam("type", "111");
 
-ÈÎÎñ·Ö·¢Æ÷»á¸ù¾İtypeµÄÖµ²»Í¬À´ÔËĞĞ²»Í¬ÈÎÎñ
+ä»»åŠ¡åˆ†å‘å™¨ä¼šæ ¹æ®typeçš„å€¼ä¸åŒæ¥è¿è¡Œä¸åŒä»»åŠ¡
 
-javaÈÎÎñÌá½»ÅäÖÃ
+javaä»»åŠ¡æäº¤é…ç½®
  private static void submitCronJob1(JobClient jobClient) {
         Job job = new Job();
         job.setTaskId("t_cron_555");
-        //´«µİ²ÎÊı£¬ÓÃÓÚÈÎÎñ·Ö·¢Æ÷ÖĞ·Ö·¢ÈÎÎñ£¬ÕâĞ©²ÎÊı¶¼ÊÇÔÚlts-tasktracker-shard-xml.xmlÖĞÖ¸¶¨
+        //ä¼ é€’å‚æ•°ï¼Œç”¨äºä»»åŠ¡åˆ†å‘å™¨ä¸­åˆ†å‘ä»»åŠ¡ï¼Œè¿™äº›å‚æ•°éƒ½æ˜¯åœ¨lts-tasktracker-shard-xml.xmlä¸­æŒ‡å®š
         job.setParam("type", "111");
-        job.setTaskTrackerNodeGroup("test_trade_TaskTracker");      // Ö´ĞĞÒªÖ´ĞĞ¸ÃÈÎÎñµÄtaskTrackerµÄ½Úµã×éÃû³Æ
+        job.setTaskTrackerNodeGroup("test_trade_TaskTracker");      // æ‰§è¡Œè¦æ‰§è¡Œè¯¥ä»»åŠ¡çš„taskTrackerçš„èŠ‚ç‚¹ç»„åç§°
         job.setNeedFeedback(true);
-        job.setReplaceOnExist(true);        // µ±ÈÎÎñ¶ÓÁĞÖĞ´æÔÚÕâ¸öÈÎÎñµÄÊ±ºò£¬ÊÇ·ñÌæ»»¸üĞÂ
+        job.setReplaceOnExist(true);        // å½“ä»»åŠ¡é˜Ÿåˆ—ä¸­å­˜åœ¨è¿™ä¸ªä»»åŠ¡çš„æ—¶å€™ï¼Œæ˜¯å¦æ›¿æ¢æ›´æ–°
         job.setCronExpression("0 0/1 * * * ?");
         Response response = jobClient.submitJob(job);
         System.out.println(response);
     }
     
-ÓÃspringÅäÖÃtasktrackerÊ±£¬ <property name="shardField" value="type"/> Ö¸¶¨ÓÃÄÄ¸ö²ÎÊıÀ´»ñÈ¡Ö¸¶¨µÄÖ´ĞĞÈÎÎñ
+ç”¨springé…ç½®tasktrackeræ—¶ï¼Œ <property name="shardField" value="type"/> æŒ‡å®šç”¨å“ªä¸ªå‚æ•°æ¥è·å–æŒ‡å®šçš„æ‰§è¡Œä»»åŠ¡
 <bean id="taskTracker" class="com.github.ltsopensource.spring.TaskTrackerAnnotationFactoryBean" init-method="start">
-        <!-- Ê¹ÓÃJobRunnerItem×¢½âÒ»¶¨ÒªÊ¹ÓÃ JobDispatcher -->
-        <!-- ÈÎÎñµ÷¶ÈÀà -->
+        <!-- ä½¿ç”¨JobRunnerItemæ³¨è§£ä¸€å®šè¦ä½¿ç”¨ JobDispatcher -->
+        <!-- ä»»åŠ¡è°ƒåº¦ç±» -->
         <property name="jobRunnerClass" value="com.github.ltsopensource.spring.tasktracker.JobDispatcher"/>
-        <!-- Èç¹ûÖ¸¶¨ÎªtaskId, È¡job.getTaskId() , ·ñÔò´Ó job.getParam("shardField") -->
-        <!-- Ö¸¶¨ job.setParam("type", "111"); ÈÎÎñ·Ö·¢Æ÷Í¨¹ıtype²ÎÊı»ñÈ¡ÖµÀ´ÕÒµ½¾ßÌåµÄÖ´ĞĞÕß£¬ÈÎÎñ±êÊ¶ÔÚÏÂÃæÈÎÎñÅäÖÃÀàÖĞÅäÖÃ -->
+        <!-- å¦‚æœæŒ‡å®šä¸ºtaskId, å–job.getTaskId() , å¦åˆ™ä» job.getParam("shardField") -->
+        <!-- æŒ‡å®š job.setParam("type", "111"); ä»»åŠ¡åˆ†å‘å™¨é€šè¿‡typeå‚æ•°è·å–å€¼æ¥æ‰¾åˆ°å…·ä½“çš„æ‰§è¡Œè€…ï¼Œä»»åŠ¡æ ‡è¯†åœ¨ä¸‹é¢ä»»åŠ¡é…ç½®ç±»ä¸­é…ç½® -->
         <property name="shardField" value="type"/>
         <property name="bizLoggerLevel" value="INFO"/>
         <property name="clusterName" value="test_cluster"/>
@@ -39,13 +39,13 @@ javaÈÎÎñÌá½»ÅäÖÃ
     </bean>
     
     
-ÅäÖÃ¾ßÌåÈÎÎñÖ´ĞĞÕß
-<bean id="xmlJobScheduler" class="org.lts.tasktracker.springxml.XmlJobScheduler"/>
+é…ç½®å…·ä½“ä»»åŠ¡æ‰§è¡Œè€…
+<bean id="xmlJobScheduler" class="org.lts.tasktracker.springxml.XmlJobScheduler"></bean>
 
 <bean class="com.github.ltsopensource.spring.tasktracker.MethodInvokingJobRunner">
     <property name="targetObject" ref="xmlJobScheduler"/>
     <property name="targetMethod" value="runJob2"/>
-    <!-- job.setParam("type", "222"); ÈÎÎñÌá½»Ê±Ö¸¶¨Öµ£¬ÓÃÓÚ²éÕÒ¶ÔÓ¦µÄÈÎÎñÖ´ĞĞÕß -->
+    <!-- job.setParam("type", "222"); ä»»åŠ¡æäº¤æ—¶æŒ‡å®šå€¼ï¼Œç”¨äºæŸ¥æ‰¾å¯¹åº”çš„ä»»åŠ¡æ‰§è¡Œè€… -->
     <property name="shardValue" value="222"/>
 </bean>
 
