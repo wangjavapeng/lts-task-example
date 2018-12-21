@@ -5,6 +5,7 @@
 任务分发器会根据type的值不同来运行不同任务
 
 java任务提交配置
+```
  private static void submitCronJob1(JobClient jobClient) {
         Job job = new Job();
         job.setTaskId("t_cron_555");
@@ -17,8 +18,9 @@ java任务提交配置
         Response response = jobClient.submitJob(job);
         System.out.println(response);
     }
-    
+ ```
 用spring配置tasktracker时， <property name="shardField" value="type"/> 指定用哪个参数来获取指定的执行任务
+```
 <bean id="taskTracker" class="com.github.ltsopensource.spring.TaskTrackerAnnotationFactoryBean" init-method="start">
         <!-- 使用JobRunnerItem注解一定要使用 JobDispatcher -->
         <!-- 任务调度类 -->
@@ -37,9 +39,10 @@ java任务提交配置
             </props>
         </property>
     </bean>
-    
+   ``` 
     
 配置具体任务执行者
+```
 <bean id="xmlJobScheduler" class="org.lts.tasktracker.springxml.XmlJobScheduler"></bean>
 
 <bean class="com.github.ltsopensource.spring.tasktracker.MethodInvokingJobRunner">
@@ -48,6 +51,6 @@ java任务提交配置
     <!-- job.setParam("type", "222"); 任务提交时指定值，用于查找对应的任务执行者 -->
     <property name="shardValue" value="222"/>
 </bean>
-
+```
 
 
