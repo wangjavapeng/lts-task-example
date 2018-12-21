@@ -1,4 +1,4 @@
-本项目是对来源项目 <a href="https://github.com/ltsopensource/light-task-scheduler">light-task-scheduler</a> 运用例子，可支持java代码和spring方式
+本项目是对来源项目[light-task-scheduler](https://github.com/ltsopensource/light-task-scheduler) 运用例子，可支持java代码和spring方式
 
 运行任务，实现一个tasktracker运行不同任务，需要在jobclient中生成任务时添加如：job.setParam("type", "111");
 
